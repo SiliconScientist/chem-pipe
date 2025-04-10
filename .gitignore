@@ -172,3 +172,20 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+# Dr. Montemore's code and data files:
+MattersimDFTLoop1_alt1/
+MattersimDFTLoop2_alt1/
+
+# Data files:
+data/
+
+# Configuration files:
+config.toml
+
+# Visual Studio Code:
+.vscode/
+
+# Things that will eventually be deleted
+montemore_workflow.md
+submit.sh
