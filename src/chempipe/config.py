@@ -1,14 +1,22 @@
 from pathlib import Path
 from tomllib import load
 from pydantic import BaseModel
+from typing import Dict, Any
 
 
 class Paths(BaseModel):
     input: Path
 
 
+class Vasp(BaseModel):
+    command: str
+    directory: Path
+    settings: Dict[str, Any]
+
+
 class Config(BaseModel):
     paths: Paths
+    vasp: Vasp
 
 
 def get_config():
