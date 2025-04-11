@@ -1,3 +1,4 @@
+import time
 from ase.io import read
 from ase.calculators.vasp import Vasp
 from mattersim.forcefield.potential import MatterSimCalculator
@@ -15,10 +16,13 @@ def main():
         command=cfg.vasp.command, directory=cfg.vasp.output, **cfg.vasp.settings
     )
     relaxer = Relaxer()
+    start = time.time()
     converged = False
     while not converged:
         # ML relaxation
-        atoms.calc = MatterSimCalculator(potential=cfg.potential, device=cfg.device)
+        atoms.calc = MatterSimCalculator(
+            potential=cfg.potential.path, device=cfg.device
+        )
         # We don't check for convergence with the ML potential
         _, atoms = relaxer.relax(atoms=atoms)
         # DFT relaxation
@@ -29,6 +33,7 @@ def main():
             print("DFT relaxation converged.")
         else:
             cfg = fine_tune(cfg=cfg)
+    print("Time to convergence:", time.time() - start)
 
 
 if __name__ == "__main__":

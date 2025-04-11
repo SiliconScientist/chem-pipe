@@ -11,7 +11,7 @@ def get_fine_tune_args(cfg: Config, train_data_path: Path):
         run_name="example",
         train_data_path=train_data_path,
         valid_data_path=train_data_path,
-        load_model_path=cfg.potential,
+        load_model_path=cfg.potential.path,
         save_path=cfg.fine_tune.checkpoints,
         save_checkpoint=True,
         ckpt_interval=50,
@@ -48,7 +48,7 @@ def get_fine_tune_args(cfg: Config, train_data_path: Path):
 
 def fine_tune(cfg: Config):
     fine_tuning_atoms = read(f"{cfg.vasp.output}/OUTCAR", index=":")
-    filename = cfg.fine_tune.directory / "outcar.extxyz"
+    filename = cfg.vasp.output / "outcar.extxyz"
     write(
         filename=filename,
         images=fine_tuning_atoms,
