@@ -4,20 +4,33 @@ from mattersim.forcefield.potential import MatterSimCalculator
 from mattersim.applications.relax import Relaxer
 
 from chempipe.config import get_config
+from chempipe.relax import check_vasp_convergence
+from chempipe.fine_tune import fine_tune
 
 
 def main():
     cfg = get_config()
-    atoms = read(cfg.paths.input)
-    vasp_calc = Vasp(
+    atoms = read(cfg.paths.input_structure)
+    dft_calc = Vasp(
         command=cfg.vasp.command, directory=cfg.vasp.directory, **cfg.vasp.settings
     )
-    atoms.calc = vasp_calc
-    atoms.get_potential_energy()
-    # mattersim_calc = MatterSimCalculator()
-    # relaxer = Relaxer()
-    # converged, atoms = relaxer.relax(atoms=atoms)
-    # print(f"Relaxation converged: {converged}")
+    relaxer = Relaxer()
+    converged = False
+    while not converged:
+        # ML relaxation
+        atoms.calc = MatterSimCalculator(
+            potential=cfg.fine_tune.potential, device=cfg.device
+        )
+        # We don't check for convergence with the ML potential
+        _, atoms = relaxer.relax(atoms=atoms)
+        # DFT relaxation
+        atoms.calc = dft_calc
+        atoms.get_potential_energy()
+        converged = check_vasp_convergence(cfg=cfg)
+        if converged:
+            print("DFT relaxation converged.")
+        else:
+            cfg = fine_tune(cfg=cfg)
 
 
 if __name__ == "__main__":

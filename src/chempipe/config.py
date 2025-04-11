@@ -5,7 +5,8 @@ from typing import Dict, Any
 
 
 class Paths(BaseModel):
-    input: Path
+    input_structure: Path
+    ml_potential: Path
 
 
 class Vasp(BaseModel):
@@ -14,9 +15,16 @@ class Vasp(BaseModel):
     settings: Dict[str, Any]
 
 
+class FineTune(BaseModel):
+    potential: Path
+    directory: Path
+
+
 class Config(BaseModel):
+    device: str
     paths: Paths
     vasp: Vasp
+    fine_tune: FineTune
 
 
 def get_config():
