@@ -20,8 +20,8 @@ def main():
     converged = False
     while not converged:
         # ML relaxation
-        atoms.calc = MatterSimCalculator(
-            potential=cfg.potential.path, device=cfg.device
+        atoms.calc = MatterSimCalculator.from_checkpoint(
+            load_path=str(cfg.potential.path), device=cfg.device
         )
         # We don't check for convergence with the ML potential
         _, atoms = relaxer.relax(atoms=atoms)
