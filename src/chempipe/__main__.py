@@ -24,7 +24,7 @@ def main():
             load_path=str(cfg.potential.path), device=cfg.device
         )
         # We don't check for convergence with the ML potential
-        _, atoms = relaxer.relax(atoms=atoms)
+        _, atoms = relaxer.relax(atoms=atoms, fmax=cfg.potential.fmax)
         # DFT relaxation
         atoms.calc = dft_calc
         atoms.get_potential_energy()
