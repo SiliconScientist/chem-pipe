@@ -15,7 +15,7 @@ def get_fine_tune_args(cfg: Config, train_data_path: Path):
         save_path=cfg.fine_tune.checkpoints,
         save_checkpoint=True,
         ckpt_interval=50,
-        device="cuda",  # or "cpu"
+        device=cfg.device,
         # model params
         cutoff=5.0,
         threebody_cutoff=4.0,
