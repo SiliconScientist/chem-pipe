@@ -3,7 +3,7 @@ from ase.io import read, write
 from types import SimpleNamespace
 from mattersim.training import finetune_mattersim
 
-from chempipe.config import Config
+from chempipe.config import Config, get_config
 
 
 def get_fine_tune_args(cfg: Config, train_data_path: Path):
@@ -11,7 +11,7 @@ def get_fine_tune_args(cfg: Config, train_data_path: Path):
         run_name="example",
         train_data_path=train_data_path,
         valid_data_path=train_data_path,
-        load_model_path=cfg.potential.path,
+        load_model_path=cfg.potential.model_path,
         save_path=cfg.fine_tune.checkpoints,
         save_checkpoint=True,
         ckpt_interval=50,
@@ -46,8 +46,8 @@ def get_fine_tune_args(cfg: Config, train_data_path: Path):
     return args
 
 
-def fine_tune(cfg: Config):
-    fine_tuning_atoms = read(f"{cfg.vasp.output}/OUTCAR", index=":")
+def fine_tune(cfg: Config) -> None:
+    fine_tuning_atoms = read(cfg.vasp.output / "OUTCAR", index=":")
     filename = cfg.vasp.output / "outcar.extxyz"
     write(
         filename=filename,
@@ -56,5 +56,12 @@ def fine_tune(cfg: Config):
     )
     args = get_fine_tune_args(cfg=cfg, train_data_path=filename)
     finetune_mattersim.main(args)
-    cfg.potential.path = cfg.fine_tune.checkpoints / "best_model.pth"
-    return cfg
+
+
+def main():
+    cfg = get_config()
+    fine_tune(cfg=cfg)
+
+
+if __name__ == "__main__":
+    main()

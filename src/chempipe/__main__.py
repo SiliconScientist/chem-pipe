@@ -1,39 +1,62 @@
+import subprocess
+import json
 import time
-from ase.io import read
-from ase.calculators.vasp import Vasp
-from mattersim.forcefield.potential import MatterSimCalculator
-from mattersim.applications.relax import Relaxer
+from pathlib import Path
 
-from chempipe.config import get_config
-from chempipe.relax import check_vasp_convergence
-from chempipe.fine_tune import fine_tune
+
+def submit_and_wait(script_path: str) -> str:
+    print(f"Submitting job: {script_path}")
+    result = subprocess.run(
+        ["sbatch", "--parsable", script_path], capture_output=True, text=True
+    )
+    if result.returncode != 0:
+        raise RuntimeError(f"Failed to submit job: {script_path}\n{result.stderr}")
+    job_id = result.stdout.strip()
+    print(f"Waiting for job {job_id} to finish...")
+    subprocess.run(["scontrol", "wait", job_id])
+    return job_id
+
+
+def load_convergence_status(path="status.json") -> tuple[bool, str | None]:
+    if not Path(path).exists():
+        raise FileNotFoundError("No status.json found.")
+    with open(path) as f:
+        data = json.load(f)
+    return data.get("converged", False), data.get("checkpoint", None)
 
 
 def main():
-    cfg = get_config()
-    atoms = read(cfg.input_structure)
-    dft_calc = Vasp(
-        command=cfg.vasp.command, directory=cfg.vasp.output, **cfg.vasp.settings
-    )
-    relaxer = Relaxer()
-    start = time.time()
     converged = False
+    iteration = 0
+
     while not converged:
-        # ML relaxation
-        atoms.calc = MatterSimCalculator.from_checkpoint(
-            load_path=str(cfg.potential.path), device=cfg.device
-        )
-        # We don't check for convergence with the ML potential
-        _, atoms = relaxer.relax(atoms=atoms, fmax=cfg.potential.fmax)
-        # DFT relaxation
-        atoms.calc = dft_calc
-        atoms.get_potential_energy()
-        converged = check_vasp_convergence(cfg=cfg)
-        if converged:
-            print("DFT relaxation converged.")
+        print(f"\nStarting iteration {iteration}")
+
+        # Step 1: MatterSim relaxation
+        submit_and_wait("potential.sh")
+
+        # Step 2: VASP relaxation
+        submit_and_wait("vasp.sh")
+
+        # Step 3: Check convergence
+        try:
+            converged, checkpoint = load_convergence_status()
+            print(f"Converged: {converged}")
+            if checkpoint:
+                print(f"Checkpoint: {checkpoint}")
+        except FileNotFoundError:
+            print("No status.json found. Assuming failure.")
+            break
+
+        # Step 4: Fine-tune if not converged
+        if not converged:
+            print("Fine-tuning MatterSim...")
+            submit_and_wait("fine_tune.sh")
         else:
-            cfg = fine_tune(cfg=cfg)
-    print("Time to convergence:", time.time() - start)
+            print("DFT convergence achieved.")
+
+        iteration += 1
+        time.sleep(2)
 
 
 if __name__ == "__main__":

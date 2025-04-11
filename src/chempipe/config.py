@@ -5,7 +5,8 @@ from typing import Dict, Any
 
 
 class Potential(BaseModel):
-    path: Path
+    model_path: Path
+    relaxed_path: Path
     fmax: float
 
 
