@@ -10,17 +10,15 @@ from chempipe.fine_tune import fine_tune
 
 def main():
     cfg = get_config()
-    atoms = read(cfg.paths.input_structure)
+    atoms = read(cfg.input_structure)
     dft_calc = Vasp(
-        command=cfg.vasp.command, directory=cfg.vasp.directory, **cfg.vasp.settings
+        command=cfg.vasp.command, directory=cfg.vasp.output, **cfg.vasp.settings
     )
     relaxer = Relaxer()
     converged = False
     while not converged:
         # ML relaxation
-        atoms.calc = MatterSimCalculator(
-            potential=cfg.fine_tune.potential, device=cfg.device
-        )
+        atoms.calc = MatterSimCalculator(potential=cfg.potential, device=cfg.device)
         # We don't check for convergence with the ML potential
         _, atoms = relaxer.relax(atoms=atoms)
         # DFT relaxation

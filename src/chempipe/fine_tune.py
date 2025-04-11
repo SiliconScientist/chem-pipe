@@ -11,8 +11,8 @@ def get_fine_tune_args(cfg: Config, train_data_path: Path):
         run_name="example",
         train_data_path=train_data_path,
         valid_data_path=train_data_path,
-        load_model_path=cfg.paths.ml_potential,
-        save_path=cfg.fine_tune.directory,
+        load_model_path=cfg.potential,
+        save_path=cfg.fine_tune.checkpoints,
         save_checkpoint=True,
         ckpt_interval=50,
         device="cuda",  # or "cpu"
@@ -47,7 +47,7 @@ def get_fine_tune_args(cfg: Config, train_data_path: Path):
 
 
 def fine_tune(cfg: Config):
-    fine_tuning_atoms = read(f"{cfg.vasp.directory}/OUTCAR", index=":")
+    fine_tuning_atoms = read(f"{cfg.vasp.output}/OUTCAR", index=":")
     filename = cfg.fine_tune.directory / "outcar.extxyz"
     write(
         filename=filename,
@@ -56,5 +56,5 @@ def fine_tune(cfg: Config):
     )
     args = get_fine_tune_args(cfg=cfg, train_data_path=filename)
     finetune_mattersim.main(args)
-    cfg.fine_tune.potential = cfg.fine_tune.directory / "best_model.pth"
+    cfg.potential.path = cfg.fine_tune.checkpoints / "best_model.pth"
     return cfg

@@ -4,25 +4,25 @@ from pydantic import BaseModel
 from typing import Dict, Any
 
 
-class Paths(BaseModel):
-    input_structure: Path
-    ml_potential: Path
+class Potential(BaseModel):
+    path: Path
+    fmax: float
 
 
 class Vasp(BaseModel):
     command: str
-    directory: Path
+    output: Path
     settings: Dict[str, Any]
 
 
 class FineTune(BaseModel):
-    potential: Path
-    directory: Path
+    checkpoints: Path
 
 
 class Config(BaseModel):
     device: str
-    paths: Paths
+    input_structure: Path
+    potential: Potential
     vasp: Vasp
     fine_tune: FineTune
 
