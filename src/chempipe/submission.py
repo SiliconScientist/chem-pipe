@@ -11,6 +11,7 @@ def submit_and_wait(script_path: str) -> str:
     print(f"Submitting job: {script_path}")
     result = subprocess.run(
         args=["sbatch", script_path],
+        shell=True,
         capture_output=True,
         text=True,
     )
