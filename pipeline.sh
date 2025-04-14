@@ -3,7 +3,7 @@
 #SBATCH -N 1
 #SBATCH -n 1
 #SBATCH -t 480
-#SBATCH -p standard
+#SBATCH -p workq
 #SBATCH -A loni_toghrul
 #SBATCH -o pipeline.out
 #SBATCH -e pipeline.err
