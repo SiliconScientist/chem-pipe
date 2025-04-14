@@ -10,5 +10,4 @@
 #SBATCH --mail-type=END
 #SBATCH --mail-user=ahill15@tulane.edu
 
-source .venv/bin/activate
 python -m chempipe
