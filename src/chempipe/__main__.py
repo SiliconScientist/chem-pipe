@@ -17,40 +17,28 @@ def submit_and_wait(script_path: str) -> str:
     return job_id
 
 
-def load_convergence_status(path="status.json") -> tuple[bool, str | None]:
+def load_convergence_status(path="status.json") -> bool:
     if not Path(path).exists():
         raise FileNotFoundError("No status.json found.")
     with open(path) as f:
         data = json.load(f)
-    return data.get("converged", False), data.get("checkpoint", None)
+    return data.get("converged", False)
 
 
 def main():
     converged = False
     iteration = 0
-
     while not converged:
         print(f"\nStarting iteration {iteration}")
-
-        # Step 1: MatterSim relaxation
         submit_and_wait("potential.sh")
-
-        # Step 2: VASP relaxation
         submit_and_wait("vasp.sh")
-
-        # Step 3: Check convergence
         try:
-            converged, checkpoint = load_convergence_status()
+            converged = load_convergence_status()
             print(f"Converged: {converged}")
-            if checkpoint:
-                print(f"Checkpoint: {checkpoint}")
         except FileNotFoundError:
             print("No status.json found. Assuming failure.")
             break
-
-        # Step 4: Fine-tune if not converged
         if not converged:
-            print("Fine-tuning MatterSim...")
             submit_and_wait("fine_tune.sh")
         else:
             print("DFT convergence achieved.")
