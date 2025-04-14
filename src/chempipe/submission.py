@@ -2,10 +2,6 @@ import json
 import subprocess
 from pathlib import Path
 
-import os
-
-os.environ["PATH"] += os.pathsep + "/usr/local/bin"
-
 
 def submit_and_wait(script_path: str) -> str:
     print(f"Submitting job: {script_path}")
