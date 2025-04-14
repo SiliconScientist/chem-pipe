@@ -12,3 +12,4 @@
 #SBATCH --mail-user=ahill15@tulane.edu
 
 torchrun --nproc_per_node=1 src/chempipe/fine_tune.py
+sync

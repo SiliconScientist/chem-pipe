@@ -14,3 +14,4 @@ module unload mvapich2/2.3.3/intel-19.0.5
 module load intel-mpi/2021.5.1
 
 python src/chempipe/vasp.py
+sync
