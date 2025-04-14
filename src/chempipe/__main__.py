@@ -1,28 +1,6 @@
-import subprocess
-import json
 import time
-from pathlib import Path
 
-
-def submit_and_wait(script_path: str) -> str:
-    print(f"Submitting job: {script_path}")
-    result = subprocess.run(
-        ["sbatch", "--parsable", script_path], capture_output=True, text=True
-    )
-    if result.returncode != 0:
-        raise RuntimeError(f"Failed to submit job: {script_path}\n{result.stderr}")
-    job_id = result.stdout.strip()
-    print(f"Waiting for job {job_id} to finish...")
-    subprocess.run(["scontrol", "wait", job_id])
-    return job_id
-
-
-def load_convergence_status(path="status.json") -> bool:
-    if not Path(path).exists():
-        raise FileNotFoundError("No status.json found.")
-    with open(path) as f:
-        data = json.load(f)
-    return data.get("converged", False)
+from chempipe.submission import submit_and_wait, load_convergence_status
 
 
 def main():
@@ -34,14 +12,13 @@ def main():
         submit_and_wait("vasp.sh")
         try:
             converged = load_convergence_status()
-            print(f"Converged: {converged}")
         except FileNotFoundError:
             print("No status.json found. Assuming failure.")
             break
-        if not converged:
-            submit_and_wait("fine_tune.sh")
-        else:
+        if converged:
             print("DFT convergence achieved.")
+        else:
+            submit_and_wait("fine_tune.sh")
 
         iteration += 1
         time.sleep(2)
