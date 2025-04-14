@@ -26,11 +26,11 @@ def relax_vasp(cfg: Config) -> None:
     return check_vasp_convergence(cfg=cfg)
 
 
-def write_convergence_status(converged: bool, checkpoint: str = "") -> None:
-    status = {"converged": converged, "checkpoint": checkpoint or None}
+def write_convergence_status(converged: bool) -> None:
+    status = {"converged": converged}
     with open("status.json", "w") as f:
         json.dump(status, f, indent=2)
-    print(f"📄 Wrote status.json: {status}")
+    print(f"Wrote status.json: {status}")
 
 
 def main():

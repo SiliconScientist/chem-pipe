@@ -12,4 +12,3 @@
 #SBATCH --mail-user=ahill15@tulane.edu
 
 python src/chempipe/potential.py
-sync
