@@ -17,7 +17,7 @@ def submit_and_wait(script_path: str) -> str:
     )
     if result.returncode != 0:
         raise RuntimeError(f"Failed to submit job: {script_path}\n{result.stderr}")
-    job_id = result.stdout.strip()
+    job_id = result.stdout.strip().split()[-1]
     print(f"Waiting for job {job_id} to finish...")
     subprocess.run(["scontrol", "wait", job_id])
     return job_id
