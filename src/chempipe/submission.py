@@ -6,7 +6,9 @@ from pathlib import Path
 def submit_and_wait(script_path: str) -> str:
     print(f"Submitting job: {script_path}")
     result = subprocess.run(
-        ["sbatch", "--parsable", script_path], capture_output=True, text=True
+        ["/usr/local/bin/sbatch", "--parsable", script_path],
+        capture_output=True,
+        text=True,
     )
     if result.returncode != 0:
         raise RuntimeError(f"Failed to submit job: {script_path}\n{result.stderr}")
