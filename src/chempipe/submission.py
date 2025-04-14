@@ -2,11 +2,15 @@ import json
 import subprocess
 from pathlib import Path
 
+import os
+
+os.environ["PATH"] += os.pathsep + "/usr/local/bin"
+
 
 def submit_and_wait(script_path: str) -> str:
     print(f"Submitting job: {script_path}")
     result = subprocess.run(
-        args=["/usr/local/bin/sbatch", script_path],
+        args=["sbatch", script_path],
         capture_output=True,
         text=True,
     )
