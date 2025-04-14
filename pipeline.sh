@@ -10,4 +10,5 @@
 #SBATCH --mail-type=END
 #SBATCH --mail-user=ahill15@tulane.edu
 
+export PATH=/usr/local/bin:$PATH
 python -m chempipe
