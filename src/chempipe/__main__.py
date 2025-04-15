@@ -8,10 +8,7 @@ def main():
     iteration = 0
     while not converged:
         print(f"\nStarting iteration {iteration}")
-        print("Running potential.sh...")
         submit_and_wait("potential.sh")
-
-        print("Running vasp.sh...")
         submit_and_wait("vasp.sh")
         try:
             converged = load_convergence_status()

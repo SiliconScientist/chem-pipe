@@ -19,7 +19,11 @@ def submit_and_wait(script_path: str) -> str:
         raise RuntimeError(f"Failed to submit job: {script_path}\n{result.stderr}")
     job_id = result.stdout.strip().split()[-1]
     print(f"Waiting for job {job_id} to finish...")
-    subprocess.run(["scontrol", "wait", job_id])
+    try:
+        subprocess.run(["scontrol", "wait", job_id], check=True)
+    except subprocess.CalledProcessError as e:
+        raise RuntimeError(f"scontrol wait failed for job {job_id}") from e
+    subprocess.run("sync && sleep 2", shell=True)
     return job_id
 
 
