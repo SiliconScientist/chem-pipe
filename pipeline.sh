@@ -10,6 +10,10 @@
 #SBATCH --mail-type=END
 #SBATCH --mail-user=ahill15@tulane.edu
 
+module unload mvapich2/2.3.3/intel-19.0.5
+module load intel-mpi/2021.5.1
+module load python/3.12.7-anaconda
+
 converged=0
 iteration=0
 
