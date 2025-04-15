@@ -14,15 +14,20 @@ def check_vasp_convergence(cfg: Config) -> bool:
     return False
 
 
-def relax_vasp(cfg: Config) -> None:
+def relax_vasp(cfg: Config) -> bool:
     calc = Vasp(
         command=cfg.vasp.command,
-        directory=cfg.vasp.output,
+        directory=str(cfg.vasp.output),
         **cfg.vasp.settings,
     )
     atoms = read(filename=cfg.potential.relaxed_path)
     atoms.calc = calc
-    atoms.get_potential_energy()
+    try:
+        atoms.get_potential_energy()
+    except Exception as e:
+        print(f"[ERROR] VASP calculation failed: {e}")
+        return False
+    return check_vasp_convergence(cfg=cfg)
     return check_vasp_convergence(cfg=cfg)
 
 
