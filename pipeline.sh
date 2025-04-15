@@ -1,7 +1,5 @@
 #!/bin/bash
 
-source .venv/bin/activate
-
 module unload mvapich2/2.3.3/intel-19.0.5
 module load intel-mpi/2021.5.1
 module load python/3.12.7-anaconda
