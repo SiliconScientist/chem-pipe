@@ -28,7 +28,6 @@ def relax_vasp(cfg: Config) -> bool:
         print(f"[ERROR] VASP calculation failed: {e}")
         return False
     return check_vasp_convergence(cfg=cfg)
-    return check_vasp_convergence(cfg=cfg)
 
 
 def write_convergence_status(converged: bool) -> None:

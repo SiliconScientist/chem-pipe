@@ -17,6 +17,7 @@ class Vasp(BaseModel):
 
 
 class FineTune(BaseModel):
+    train_traj: Path
     checkpoints: Path
 
 

@@ -47,10 +47,10 @@ def get_fine_tune_args(cfg: Config, train_data_path: Path):
 
 
 def fine_tune(cfg: Config) -> None:
-    fine_tuning_atoms = read(cfg.vasp.output / "OUTCAR", index=":")
-    filename = cfg.vasp.output / "outcar.extxyz"
+    filename = cfg.vasp.output / "OUTCAR"
+    fine_tuning_atoms = read(filename=filename, index=":", format="vasp-out")
     write(
-        filename=filename,
+        filename=cfg.fine_tune.train_traj,
         images=fine_tuning_atoms,
         format="extxyz",
     )
