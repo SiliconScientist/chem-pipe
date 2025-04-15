@@ -1,14 +1,4 @@
 #!/bin/bash
-#SBATCH --job-name=chempipe
-#SBATCH -N 1
-#SBATCH -n 1
-#SBATCH -t 480
-#SBATCH -p single
-#SBATCH -A loni_toghrul
-#SBATCH -o pipeline.out
-#SBATCH -e pipeline.err
-#SBATCH --mail-type=END
-#SBATCH --mail-user=ahill15@tulane.edu
 
 module unload mvapich2/2.3.3/intel-19.0.5
 module load intel-mpi/2021.5.1
