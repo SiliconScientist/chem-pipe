@@ -11,7 +11,9 @@ def get_fine_tune_args(cfg: Config):
         train_data_path=str(cfg.fine_tune.train_traj),
         valid_data_path=str(cfg.fine_tune.train_traj),
         load_model_path=str(cfg.potential.model_path),
-        save_path=str(cfg.fine_tune.checkpoints),
+        save_path=str(
+            cfg.fine_tune.checkpoints
+        ),  # TODO: Mistake, we should us the path to the best model
         save_checkpoint=True,
         ckpt_interval=50,
         device="cuda",
