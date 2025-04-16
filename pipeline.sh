@@ -3,7 +3,7 @@
 #SBATCH -A loni_toghrul
 #SBATCH -p workq
 #SBATCH -N 1
-#SBATCH -n 64
+#SBATCH -n 48
 #SBATCH -t 10
 #SBATCH -o test_%j_%N.out
 #SBATCH -e test_%j_%N.err
