@@ -29,6 +29,7 @@ Atomic simulation pipeline utilizing quantum calculations and ML interatomic pot
     vasp_output/                      # Directory for all VASP-generated outputs
     ```
 - Modify your config.toml file according to your directory scheme and user specifications.
+- Modify each script in the `scripts/` directory so you are using the correct loni allocation and email address.
 
 ### Job submission:
 #TODO: Urgent: find a way keep this job running when users exit the HPC system.

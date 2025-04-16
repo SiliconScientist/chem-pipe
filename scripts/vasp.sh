@@ -6,9 +6,9 @@
 #SBATCH -o vasp.out
 #SBATCH -e vasp.err
 #SBATCH -p workq
-#SBATCH -A loni_toghrul
+#SBATCH -A loni_username
 #SBATCH --mail-type=END
-#SBATCH --mail-user=ahill15@tulane.edu
+#SBATCH --mail-user=username@tulane.edu
 
 source .venv/bin/activate
 
