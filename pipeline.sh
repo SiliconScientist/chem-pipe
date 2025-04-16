@@ -7,6 +7,7 @@ module load python/3.12.7-anaconda
 TEST_MODE="${TEST_MODE:-false}"  # default to false if not set
 converged="false"
 iteration=0
+SECONDS=0
 
 while [ "$converged" = "false" ]; do
   echo "Starting iteration $iteration..."
@@ -36,7 +37,9 @@ fi
     echo "Fine-tuning MatterSim..."
     sbatch --wait scripts/fine_tune.sh
   else
-    echo "DFT convergence achieved."
+    duration=$SECONDS
+    printf -v hhmmss '%02d:%02d:%02d' $((duration/3600)) $((duration%3600/60)) $((duration%60))
+    echo "DFT convergence achieved in $hhmmss (HH:MM:SS)."
   fi
 
   iteration=$((iteration + 1))
