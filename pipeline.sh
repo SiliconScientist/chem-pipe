@@ -26,11 +26,10 @@ while [ "$converged" = "false" ]; do
     exit 1
   fi
 
-  # Simulate convergence after first iteration (test mode only)
-  if [ "$TEST_MODE" = "true" ] && [ "$iteration" -ge 1 ]; then
-    echo "TEST_MODE active: Forcing convergence = true"
-    converged="true"
-  fi
+if [ "$TEST_MODE" = "true" ] && [ "$iteration" -eq 0 ]; then
+  echo "TEST_MODE active: Forcing convergence = false"
+  converged="false"
+fi
 
   # Step 4: Fine-tune if not converged
   if [ "$converged" = "false" ]; then
