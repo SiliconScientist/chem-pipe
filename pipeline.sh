@@ -7,7 +7,7 @@
 #SBATCH -A loni_toghrul
 #SBATCH -o test_%j_%N.out
 #SBATCH -e test_%j_%N.err
-#SBATCH --mail-user=ahill15@address.edu
+#SBATCH --mail-user=ahill15@tulane.edu
 #SBATCH --mail-type=ALL
 
 module unload mvapich2/2.3.3/intel-19.0.5
