@@ -1,4 +1,3 @@
-from pathlib import Path
 from ase.io import read, write
 from types import SimpleNamespace
 from mattersim.training import finetune_mattersim
@@ -6,13 +5,13 @@ from mattersim.training import finetune_mattersim
 from chempipe.config import Config, get_config
 
 
-def get_fine_tune_args(cfg: Config, train_data_path: Path):
+def get_fine_tune_args(cfg: Config):
     args = SimpleNamespace(
         run_name="example",
-        train_data_path=train_data_path,
-        valid_data_path=train_data_path,
-        load_model_path=cfg.potential.model_path,
-        save_path=cfg.fine_tune.checkpoints,
+        train_data_path=str(cfg.fine_tune.train_traj),
+        valid_data_path=str(cfg.fine_tune.train_traj),
+        load_model_path=str(cfg.potential.model_path),
+        save_path=str(cfg.fine_tune.checkpoints),
         save_checkpoint=True,
         ckpt_interval=50,
         device=cfg.device,
@@ -54,7 +53,7 @@ def fine_tune(cfg: Config) -> None:
         images=fine_tuning_atoms,
         format="extxyz",
     )
-    args = get_fine_tune_args(cfg=cfg, train_data_path=filename)
+    args = get_fine_tune_args(cfg=cfg)
     finetune_mattersim.main(args)
 
 
