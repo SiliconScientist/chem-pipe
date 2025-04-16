@@ -22,7 +22,6 @@ class FineTune(BaseModel):
 
 
 class Config(BaseModel):
-    device: str
     input_structure: Path
     potential: Potential
     vasp: Vasp
