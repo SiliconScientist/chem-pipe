@@ -1,14 +1,4 @@
 #!/bin/bash
-#SBATCH -p workq
-#SBATCH -A loni_toghrul
-#SBATCH -p workq
-#SBATCH -N 1
-#SBATCH -n 48
-#SBATCH -t 10
-#SBATCH -o test_%j_%N.out
-#SBATCH -e test_%j_%N.err
-#SBATCH --mail-user=ahill15@tulane.edu
-#SBATCH --mail-type=ALL
 
 module unload mvapich2/2.3.3/intel-19.0.5
 module load intel-mpi/2021.5.1
