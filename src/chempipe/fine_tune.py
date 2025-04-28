@@ -8,8 +8,8 @@ from chempipe.config import Config, get_config
 def get_fine_tune_args(cfg: Config):
     args = SimpleNamespace(
         run_name="example",
-        train_data_path=str(cfg.fine_tune.train_traj),
-        valid_data_path=str(cfg.fine_tune.train_traj),
+        train_data_path=str(cfg.fine_tune.train_path),
+        valid_data_path=str(cfg.fine_tune.train_path),
         load_model_path=str(
             cfg.potential.model_path
         ),  # TODO: We should check if there is another checkpoint available, and use that as the load_model_path
@@ -51,7 +51,7 @@ def fine_tune(cfg: Config) -> None:
     filename = cfg.vasp.output / "vasprun.xml"
     fine_tuning_atoms = read(filename=filename, index=":")
     write(
-        filename=cfg.fine_tune.train_traj,
+        filename=cfg.fine_tune.train_path,
         images=fine_tuning_atoms,
         format="extxyz",
     )

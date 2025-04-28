@@ -17,12 +17,12 @@ class Vasp(BaseModel):
 
 
 class FineTune(BaseModel):
-    train_traj: Path
+    train_path: Path
     checkpoints: Path
 
 
 class Config(BaseModel):
-    input_structure: Path
+    input_path: Path
     potential: Potential
     vasp: Vasp
     fine_tune: FineTune

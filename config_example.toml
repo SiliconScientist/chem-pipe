@@ -6,7 +6,7 @@ relaxed_path = "data/ml_relaxed/CONTCAR"
 fmax = 0.01
 
 [fine_tune]
-train_path = "data/fine_tune/train_traj.extxyz"
+train_path = "data/fine_tune/train.extxyz"
 checkpoints = "data/fine_tune/checkpoints"
 
 [vasp]

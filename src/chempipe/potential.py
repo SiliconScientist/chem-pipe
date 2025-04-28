@@ -11,7 +11,7 @@ def relax_potential(cfg: Config) -> None:
     if contcar_path.exists():
         atoms = read(contcar_path)
     else:
-        atoms = read(cfg.input_structure)
+        atoms = read(cfg.input_path)
     if best_model.exists():
         load_path = str(best_model)
     else:
