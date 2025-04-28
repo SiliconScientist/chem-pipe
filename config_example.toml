@@ -15,6 +15,7 @@ output = "vasp_output"
 
 [vasp.settings]
 # KPOINTS
+gamma = true       # Gamma-centered k-points, otherwise Monkhorst-Pack
 kpts = [10, 10, 1]
 
 # INCAR
