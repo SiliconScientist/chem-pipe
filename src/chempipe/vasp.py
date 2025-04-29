@@ -20,7 +20,7 @@ def relax_vasp(cfg: Config) -> bool:
         directory=str(cfg.vasp.output),
         **cfg.vasp.settings,
     )
-    atoms = read(filename=cfg.potential.relaxed_path)
+    atoms = read(filename=cfg.potential.relaxed_path, format="vasp")
     atoms.calc = calc
     try:
         atoms.get_potential_energy()

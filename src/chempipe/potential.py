@@ -23,6 +23,7 @@ def relax_potential(cfg: Config) -> None:
         filename=cfg.potential.relaxed_path,
         images=atoms,
         format="vasp",
+        vasp5=True,
     )
 
 
