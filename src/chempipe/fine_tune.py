@@ -6,13 +6,16 @@ from chempipe.config import Config, get_config
 
 
 def get_fine_tune_args(cfg: Config):
+    best_model = cfg.fine_tune.checkpoints / "best_model.pth"
+    if best_model.exists():
+        load_model_path = str(best_model)
+    else:
+        load_model_path = str(cfg.potential.model_path)
     args = SimpleNamespace(
         run_name="example",
         train_data_path=str(cfg.fine_tune.train_path),
         valid_data_path=str(cfg.fine_tune.train_path),
-        load_model_path=str(
-            cfg.potential.model_path
-        ),  # TODO: We should check if there is another checkpoint available, and use that as the load_model_path
+        load_model_path=load_model_path,
         save_path=str(cfg.fine_tune.checkpoints),
         save_checkpoint=True,
         ckpt_interval=50,
