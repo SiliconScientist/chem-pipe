@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "chempipe"
-version = "1.1.0"
+version = "1.2.0"
 authors = [{ name = "Avery Hill", email = "ahill15@tulane.edu" }]
 description = "A chemical pipeline for accelerated atomic simulations"
 readme = "README.md"
