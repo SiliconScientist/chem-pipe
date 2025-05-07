@@ -15,6 +15,8 @@ module unload mvapich2/2.3.3/intel-19.0.5
 module load intel-mpi/2021.5.1
 module load python/3.12.7-anaconda
 
+source .venv/bin/activate
+
 TEST_MODE="${TEST_MODE:-false}"  # default to false if not set
 converged="false"
 iteration=0
@@ -24,7 +26,7 @@ while [ "$converged" = "false" ]; do
   echo "Starting iteration $iteration..."
 
   # Step 1: MatterSim relaxation
- python src/chempipe/potential.py
+  python src/chempipe/potential.py
 
   # Step 2: VASP relaxation
   python src/chempipe/vasp.py
