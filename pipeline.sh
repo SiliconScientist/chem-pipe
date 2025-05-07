@@ -1,17 +1,17 @@
 #!/bin/bash
-#SBATCH --job-name=fine_tune
+#SBATCH --job-name=chempipe
 #SBATCH -N 1
-#SBATCH -n 64
+#SBATCH -n 32
 #SBATCH -t 10
-#SBATCH -o fine_tune.out
-#SBATCH -e fine_tune.err
-#SBATCH -p gpu
+#SBATCH -o output.out
+#SBATCH -e error.err
+#SBATCH -p gpu2
 #SBATCH --gres=gpu:1
 #SBATCH -A loni_username
 #SBATCH --mail-type=END
 #SBATCH --mail-user=username@tulane.edu
 
-module unload mvapich2/2.3.3/intel-19.0.5
+module purge
 module load intel-mpi/2021.5.1
 module load python/3.12.7-anaconda
 
