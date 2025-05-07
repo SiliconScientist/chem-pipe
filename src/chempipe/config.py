@@ -11,7 +11,7 @@ class Potential(BaseModel):
 
 
 class Vasp(BaseModel):
-    command: str
+    command: list[str]
     output: Path
     settings: Dict[str, Any]
 
