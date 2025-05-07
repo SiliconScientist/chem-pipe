@@ -1,4 +1,15 @@
 #!/bin/bash
+#SBATCH --job-name=fine_tune
+#SBATCH -N 1
+#SBATCH -n 64
+#SBATCH -t 10
+#SBATCH -o fine_tune.out
+#SBATCH -e fine_tune.err
+#SBATCH -p gpu
+#SBATCH --gres=gpu:1
+#SBATCH -A loni_username
+#SBATCH --mail-type=END
+#SBATCH --mail-user=username@tulane.edu
 
 module unload mvapich2/2.3.3/intel-19.0.5
 module load intel-mpi/2021.5.1
@@ -13,10 +24,10 @@ while [ "$converged" = "false" ]; do
   echo "Starting iteration $iteration..."
 
   # Step 1: MatterSim relaxation
-  sbatch --wait scripts/potential.sh
+ python src/chempipe/potential.py
 
   # Step 2: VASP relaxation
-  sbatch --wait scripts/vasp.sh
+  python src/chempipe/vasp.py
 
   # Step 3: Check convergence
   if [ -f status.json ]; then
@@ -35,7 +46,7 @@ fi
   # Step 4: Fine-tune if not converged
   if [ "$converged" = "false" ]; then
     echo "Fine-tuning MatterSim..."
-    sbatch --wait scripts/fine_tune.sh
+    python src/chempipe/fine_tune.py
   else
     duration=$SECONDS
     printf -v hhmmss '%02d:%02d:%02d' $((duration/3600)) $((duration%3600/60)) $((duration%60))
