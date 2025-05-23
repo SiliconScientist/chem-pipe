@@ -7,9 +7,9 @@
 #SBATCH -e fine_tune.err
 #SBATCH -p gpu
 #SBATCH --gres=gpu:1
-#SBATCH -A loni_username
+#SBATCH -A loni_hajar01
 #SBATCH --mail-type=END
-#SBATCH --mail-user=username@tulane.edu
+#SBATCH --mail-user=hhosseinifaradonbeh@tulane.edu
 
 source .venv/bin/activate
 

@@ -5,11 +5,11 @@
 #SBATCH -t 10
 #SBATCH -o output.out
 #SBATCH -e error.err
-#SBATCH -p gpu2
-#SBATCH --gres=gpu:1
-#SBATCH -A loni_username
+#SBATCH -p single
+########SBATCH --gres=gpu:1
+#SBATCH -A loni_hajar01
 #SBATCH --mail-type=END
-#SBATCH --mail-user=username@tulane.edu
+#SBATCH --mail-user=hhosseinifaradonbeh@tulane.edu
 
 module purge
 module load intel-mpi/2021.5.1
@@ -48,6 +48,7 @@ fi
   # Step 4: Fine-tune if not converged
   if [ "$converged" = "false" ]; then
     echo "Fine-tuning MatterSim..."
+    export LOCAL_RANK=0
     python src/chempipe/fine_tune.py
   else
     duration=$SECONDS
@@ -57,3 +58,8 @@ fi
 
   iteration=$((iteration + 1))
 done
+export LOCAL_RANK=0 # needed or mattersim fine tuning gives an error                           
+export RANK=0
+export WORLD_SIZE=1
+export MASTER_ADDR="127.0.0.1"
+export MASTER_PORT="12345"
