@@ -4,6 +4,17 @@ from pydantic import BaseModel
 from typing import Dict, Any
 
 
+class SBATCHConfig(BaseModel):
+    job_name: str
+    account: str
+    partition: str
+    nodes: int
+    ntasks: int
+    time: str
+    email: str
+    email_type: str
+
+
 class Potential(BaseModel):
     model_path: Path
     relaxed_path: Path
@@ -11,7 +22,7 @@ class Potential(BaseModel):
 
 
 class Vasp(BaseModel):
-    command: list[str]
+    command: str
     output: Path
     settings: Dict[str, Any]
 

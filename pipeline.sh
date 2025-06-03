@@ -1,15 +1,34 @@
 #!/bin/bash
-#SBATCH --job-name=chempipe
-#SBATCH -N 1
-#SBATCH -n 32
-#SBATCH -t 10
-#SBATCH -o output.out
-#SBATCH -e error.err
-#SBATCH -p gpu2
-#SBATCH --gres=gpu:1
-#SBATCH -A loni_username
-#SBATCH --mail-type=END
-#SBATCH --mail-user=username@tulane.edu
+
+CONFIG_FILE="config.toml"
+get_config_value() {
+    grep -E "^$1\s*=" "$CONFIG_FILE" | head -n1 | cut -d '=' -f2- | sed 's/#.*//' | tr -d ' "' 
+}
+
+JOB_NAME=$(get_config_value "job_name")
+ACCOUNT=$(get_config_value "account")
+PARTITION=$(get_config_value "partition")
+NODES=$(get_config_value "nodes")
+NTASKS=$(get_config_value "ntasks")
+TIME=$(get_config_value "time")
+MAIL_USER=$(get_config_value "mail_user")
+MAIL_TYPE=$(get_config_value "mail_type")
+
+# Define your temporary job script
+JOB_SCRIPT="temp.slurm"
+
+# Write the job file
+cat <<EOF > "$JOB_SCRIPT"
+#!/bin/bash
+#SBATCH --job-name=$JOB_NAME
+#SBATCH --account=$ACCOUNT
+#SBATCH --partition=$PARTITION
+#SBATCH --nodes=$NODES
+#SBATCH --ntasks=$NTASKS
+#SBATCH --time=$TIME
+#SBATCH --mail-user=$MAIL_USER
+#SBATCH --mail-type=$MAIL_TYPE
+#SBATCH --output=logs/%x_%j.out
 
 module purge
 module load intel-mpi/2021.5.1
@@ -57,3 +76,8 @@ fi
 
   iteration=$((iteration + 1))
 done
+EOF
+
+# Submit the job
+sbatch "$JOB_SCRIPT"
+rm "$JOB_SCRIPT"

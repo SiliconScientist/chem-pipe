@@ -1,5 +1,15 @@
 input_path = "data/POSCAR"
 
+[sbatch]
+job_name = "chempipe"
+account = "loni_username"
+partition = "workq"
+nodes = 1
+ntasks = 48
+time = "06:00:00"
+email = "username@tulane.edu"
+email_type = "END"
+
 [potential]
 model_path = "/scratch/$USER/Github/mattersim/pretrained_models/mattersim-v1.0.0-5M.pth"
 relaxed_path = "data/ml_relaxed/CONTCAR"
