@@ -179,6 +179,7 @@ MattersimDFTLoop2_alt1/
 
 # Data files:
 data/
+logs/
 
 # Configuration files:
 config.toml
