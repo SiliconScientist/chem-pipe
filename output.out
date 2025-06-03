@@ -1,9 +1,0 @@
-Loading intel-mpi/2021.5.1
-  Loading requirement: intel/2021.5.0
-Starting iteration 0...
-[32m2025-05-16 14:39:49.361[0m | [1mINFO    [0m | [36mmattersim.forcefield.potential[0m:[36mfrom_checkpoint[0m:[36m893[0m - [1mLoading the model from data/fine_tune/checkpoints/best_model.pth[0m
-      Step     Time          Energy          fmax
-FIRE:    0 14:39:57       -6.776958        0.006754
-Wrote status.json: {'converged': True}
-Converged: true
-DFT convergence achieved in 00:02:27 (HH:MM:SS).
