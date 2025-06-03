@@ -29,6 +29,8 @@ cat <<EOF > "$JOB_SCRIPT"
 #SBATCH --mail-user=$MAIL_USER
 #SBATCH --mail-type=$MAIL_TYPE
 #SBATCH --output=logs/%x_%j.out
+#SBATCH --error=logs/%x_%j.err
+
 
 module purge
 module load intel-mpi/2021.5.1
