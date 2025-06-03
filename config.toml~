@@ -1,0 +1,48 @@
+input_path = "data/POSCAR/POSCAR_stretched_H2"
+
+[potential]
+model_path = "/work/hajar/github/mattersim/pretrained_models/mattersim-v1.0.0-5M.pth"
+relaxed_path = "data/ml_relaxed/CONTCAR"
+fmax = 0.01
+
+[fine_tune]
+train_path = "data/fine_tune/train.extxyz"
+checkpoints = "data/fine_tune/checkpoints"
+
+[vasp]
+command = ["mpirun /home/$USER/vasp/vaspbin/vasp_std"]
+output = "vasp_output"
+
+[vasp.settings]
+# KPOINTS
+gamma = true       # Gamma-centered k-points, otherwise Monkhorst-Pack
+kpts = [10, 10, 1]
+
+# INCAR
+algo = "VeryFast"
+amix = 0.2
+amix_mag = 0.8
+bmix = 1e-5
+bmix_mag = 1e-5
+ediff = 1e-5
+ediffg = -0.03
+encut = 400.0
+gga = "PE"
+ibrion = 3
+idipol = 0
+ismear = 2
+ivdw = 2
+laechg = false
+lcharg = false
+lorbit = false
+lreal = "Auto"
+lvtot = false
+lwave = false
+nelmin = 5
+nsw = 10          # Number of fine-tuning samples
+nwrite = 1
+potim = 0.15
+prec = "Accurate"
+sigma = 0.2
+ncore = 4
+kpar = 2

@@ -1,7 +1,7 @@
 from ase.io import read, write
 from mattersim.forcefield.potential import MatterSimCalculator
 from mattersim.applications.relax import Relaxer
-
+import torch
 from chempipe.config import Config, get_config
 
 
@@ -16,7 +16,9 @@ def relax_potential(cfg: Config) -> None:
         load_path = str(best_model)
     else:
         load_path = str(cfg.potential.model_path)
-    atoms.calc = MatterSimCalculator.from_checkpoint(load_path=load_path, device="cuda")
+    device = "cuda" if torch.cuda.is_available() else "cpu"
+    atoms.calc = MatterSimCalculator.from_checkpoint(load_path=load_path, device=device)
+    #atoms.calc = MatterSimCalculator.from_checkpoint(load_path=load_path, device="cuda")
     relaxer = Relaxer(constrain_symmetry=False)
     _, atoms = relaxer.relax(atoms=atoms, fmax=cfg.potential.fmax)
     write(

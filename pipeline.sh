@@ -67,6 +67,7 @@ fi
   # Step 4: Fine-tune if not converged
   if [ "$converged" = "false" ]; then
     echo "Fine-tuning MatterSim..."
+    export LOCAL_RANK=0
     python src/chempipe/fine_tune.py
   else
     duration=$SECONDS
@@ -76,7 +77,6 @@ fi
 
   iteration=$((iteration + 1))
 done
-EOF
 
 # Submit the job
 sbatch "$JOB_SCRIPT"
