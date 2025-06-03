@@ -17,7 +17,7 @@ class SBATCHConfig(BaseModel):
 
 class Potential(BaseModel):
     model_path: Path
-    relaxed_path: Path
+    relax_path: Path
     fmax: float
 
 
