@@ -77,6 +77,7 @@ fi
 
   iteration=$((iteration + 1))
 done
+EOF
 
 # Submit the job
 sbatch "$JOB_SCRIPT"
