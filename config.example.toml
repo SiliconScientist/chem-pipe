@@ -7,8 +7,8 @@ partition = "workq"
 nodes = 1
 ntasks = 48
 time = "06:00:00"
-email_user = "username@tulane.edu"
-email_type = "END"
+mail_user = "username@tulane.edu"
+mail_type = "END"
 
 [potential]
 model_path = "/scratch/$USER/Github/mattersim/pretrained_models/mattersim-v1.0.0-5M.pth"
