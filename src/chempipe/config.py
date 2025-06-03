@@ -11,7 +11,7 @@ class SBATCHConfig(BaseModel):
     nodes: int
     ntasks: int
     time: str
-    email: str
+    email_user: str
     email_type: str
 
 

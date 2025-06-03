@@ -7,7 +7,7 @@ partition = "workq"
 nodes = 1
 ntasks = 48
 time = "06:00:00"
-email = "username@tulane.edu"
+email_user = "username@tulane.edu"
 email_type = "END"
 
 [potential]
