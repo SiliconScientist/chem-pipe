@@ -62,13 +62,15 @@ class Config(BaseModel):
         (base / "input_structure").mkdir(parents=True, exist_ok=True)
 
         # 2. Handle POSCAR: move/copy into input_structure
+        input_dir = base / "input"
+        input_dir.mkdir(parents=True, exist_ok=True)
+
         original_poscar = Path("POSCAR")
-        self.input_path = base / "input" / "POSCAR"
+        target_poscar = input_dir / "POSCAR"
+        self.input_path = target_poscar
 
         if original_poscar.exists():
-            # Move or copy POSCAR into data/input_structure
-            if not self.input_path.exists():
-                shutil.move(original_poscar, self.input_path)
+            shutil.move(str(original_poscar), target_poscar)
         else:
             print("Warning: POSCAR not found in working directory.")
 
