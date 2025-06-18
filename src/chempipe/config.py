@@ -1,7 +1,9 @@
+import os
 from pathlib import Path
+import shutil
 from tomllib import load
 from pydantic import BaseModel
-from typing import Dict, Any
+from typing import Dict, Any, Union, Optional
 
 
 class SBATCHConfig(BaseModel):
@@ -22,7 +24,7 @@ class Potential(BaseModel):
 
 
 class Vasp(BaseModel):
-    command: str
+    script: str
     output: Path
     settings: Dict[str, Any]
 
@@ -32,11 +34,51 @@ class FineTune(BaseModel):
     checkpoints: Path
 
 
+class MainConfig(BaseModel):
+    data: Path
+
+
 class Config(BaseModel):
-    input_path: Path
+    main: MainConfig
+    input_path: Optional[Path] = None
     potential: Potential
     vasp: Vasp
     fine_tune: FineTune
+
+    def init_paths(self) -> None:
+        base = self.main.data
+        base.mkdir(parents=True, exist_ok=True)
+
+        # 1. Create all required directories
+        (base / "ml_relax").mkdir(parents=True, exist_ok=True)
+        (base / "vasp_output").mkdir(parents=True, exist_ok=True)
+        (base / "fine_tune" / "checkpoints").mkdir(parents=True, exist_ok=True)
+        (base / "input_structure").mkdir(parents=True, exist_ok=True)
+
+        # 2. Handle POSCAR: move/copy into input_structure
+        original_poscar = Path("POSCAR")
+        self.input_path = base / "input" / "POSCAR"
+
+        if original_poscar.exists():
+            # Move or copy POSCAR into data/input_structure
+            if not self.input_path.exists():
+                shutil.move(original_poscar, self.input_path)
+        else:
+            print("Warning: POSCAR not found in working directory.")
+
+        # 3. Build all other paths
+        self.potential.relax_path = base / "ml_relax" / "CONTCAR"
+        self.vasp.output = base / "vasp_output"
+        self.fine_tune.train_path = base / "fine_tune" / "train.extxyz"
+        self.fine_tune.checkpoints = base / "fine_tune" / "checkpoints"
+
+        # 4. VASP command
+        if self.vasp.script:
+            self.vasp.script = (
+                f"mpirun /home/{os.getenv('USER')}/vasp/vaspbin/{self.vasp.script}"
+            )
+        else:
+            self.vasp.script = f"mpirun /home/{os.getenv('USER')}/vasp/vaspbin/vasp_std"
 
 
 def get_config():

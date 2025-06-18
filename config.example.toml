@@ -1,4 +1,5 @@
-input_path = "data/POSCAR"
+[main]
+data = "data/"
 
 [sbatch]
 job_name = "chempipe"
@@ -7,21 +8,15 @@ partition = "workq"
 nodes = 1
 ntasks = 48
 time = "06:00:00"
-mail_user = "username@tulane.edu"
-mail_type = "END"
+email_user = "username@tulane.edu"
+email_type = "END"
 
 [potential]
-model_path = "/scratch/$USER/Github/mattersim/pretrained_models/mattersim-v1.0.0-5M.pth"
-relax_path = "data/ml_relax/CONTCAR"
+model_path = "pretrained/mattersim-v1.0.0-1M.pth"
 fmax = 0.01
 
-[fine_tune]
-train_path = "data/fine_tune/train.extxyz"
-checkpoints = "data/fine_tune/checkpoints"
-
 [vasp]
-command = "mpirun /home/$USER/vasp/vaspbin/vasp_std"
-output = "vasp_output"
+script = "vasp_std"
 
 [vasp.settings]
 # KPOINTS
