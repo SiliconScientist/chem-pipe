@@ -1,9 +1,13 @@
 import os
 from pathlib import Path
 import shutil
-from tomllib import load
 from pydantic import BaseModel
-from typing import Dict, Any, Union, Optional
+from typing import Dict, Any, Optional
+
+try:
+    from tomllib import load  # Python 3.11+
+except ImportError:
+    from toml import load  # External backport for Python <3.11
 
 
 class SBATCHConfig(BaseModel):
