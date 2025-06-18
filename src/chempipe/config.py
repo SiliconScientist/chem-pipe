@@ -54,6 +54,8 @@ class Config(BaseModel):
         base.mkdir(parents=True, exist_ok=True)
 
         # 1. Create all required directories
+        if self.fine_tune is None:
+            self.fine_tune = FineTune()
         (base / "ml_relax").mkdir(parents=True, exist_ok=True)
         (base / "vasp_output").mkdir(parents=True, exist_ok=True)
         (base / "fine_tune" / "checkpoints").mkdir(parents=True, exist_ok=True)
