@@ -11,8 +11,8 @@ PARTITION=$(get_config_value "partition")
 NODES=$(get_config_value "nodes")
 NTASKS=$(get_config_value "ntasks")
 TIME=$(get_config_value "time")
-MAIL_USER=$(get_config_value "mail_user")
-MAIL_TYPE=$(get_config_value "mail_type")
+MAIL_USER=$(get_config_value "email_user")
+MAIL_TYPE=$(get_config_value "email_type")
 
 # Define your temporary job script
 JOB_SCRIPT="temp.slurm"
