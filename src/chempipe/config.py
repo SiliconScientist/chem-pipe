@@ -59,12 +59,10 @@ class Config(BaseModel):
         (base / "ml_relax").mkdir(parents=True, exist_ok=True)
         (base / "vasp_output").mkdir(parents=True, exist_ok=True)
         (base / "fine_tune" / "checkpoints").mkdir(parents=True, exist_ok=True)
-        (base / "input_structure").mkdir(parents=True, exist_ok=True)
 
-        # 2. Handle POSCAR: move/copy into input_structure
+        # 2. Handle POSCAR: move into input folder
         input_dir = base / "input"
         input_dir.mkdir(parents=True, exist_ok=True)
-
         original_poscar = Path("POSCAR")
         target_poscar = input_dir / "POSCAR"
         self.input_path = target_poscar
