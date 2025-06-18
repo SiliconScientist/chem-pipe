@@ -23,19 +23,19 @@ class SBATCHConfig(BaseModel):
 
 class Potential(BaseModel):
     model_path: Path
-    relax_path: Path
+    relax_path: Optional[Path] = None
     fmax: float
 
 
 class Vasp(BaseModel):
     script: str
-    output: Path
+    output: Optional[Path] = None
     settings: Dict[str, Any]
 
 
 class FineTune(BaseModel):
-    train_path: Path
-    checkpoints: Path
+    train_path: Optional[Path] = None
+    checkpoints: Optional[Path] = None
 
 
 class MainConfig(BaseModel):
