@@ -47,7 +47,7 @@ class Config(BaseModel):
     input_path: Optional[Path] = None
     potential: Potential
     vasp: Vasp
-    fine_tune: FineTune
+    fine_tune: Optional[FineTune] = None
 
     def init_paths(self) -> None:
         base = self.main.data
