@@ -86,6 +86,6 @@ class Config(BaseModel):
 
 
 def get_config():
-    with open("config.toml", "rb") as f:
+    with open("config.toml", "r") as f:
         cfg_data = load(f)
     return Config(**cfg_data)
