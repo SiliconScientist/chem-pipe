@@ -60,18 +60,6 @@ class Config(BaseModel):
         (base / "vasp_output").mkdir(parents=True, exist_ok=True)
         (base / "fine_tune" / "checkpoints").mkdir(parents=True, exist_ok=True)
 
-        # 2. Handle POSCAR: move into input folder
-        input_dir = base / "input"
-        input_dir.mkdir(parents=True, exist_ok=True)
-        original_poscar = Path("POSCAR")
-        target_poscar = input_dir / "POSCAR"
-        self.input_path = target_poscar
-
-        if original_poscar.exists():
-            shutil.move(str(original_poscar), target_poscar)
-        else:
-            print("Warning: POSCAR not found in working directory.")
-
         # 3. Build all other paths
         self.potential.relax_path = base / "ml_relax" / "CONTCAR"
         self.vasp.output = base / "vasp_output"
