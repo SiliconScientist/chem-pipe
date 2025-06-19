@@ -17,6 +17,8 @@ MAIL_TYPE=$(get_config_value "email_type")
 # Define your temporary job script
 JOB_SCRIPT="temp.slurm"
 
+export PYTHONPATH=$(pwd)/src
+
 # Write the job file
 cat <<EOF > "$JOB_SCRIPT"
 #!/bin/bash
@@ -47,10 +49,10 @@ while [ "\$converged" = "false" ]; do
   echo "Starting iteration \$iteration..."
 
   # Step 1: MatterSim relaxation
-  python src/chempipe/potential.py
+  python -m chempipe.potential
 
   # Step 2: VASP relaxation
-  python src/chempipe/vasp.py
+  python -m chempipe.vasp
 
   # Step 3: Check convergence
   if [ -f status.json ]; then
@@ -70,7 +72,7 @@ fi
   if [ "\$converged" = "false" ]; then
     echo "Fine-tuning MatterSim..."
     export LOCAL_RANK=0
-    python src/chempipe/fine_tune.py
+    python -m chempipe.fine_tune
   else
     duration=\$SECONDS
     printf -v hhmmss '%02d:%02d:%02d' \$((duration/3600)) \$((duration%3600/60)) \$((duration%60))
