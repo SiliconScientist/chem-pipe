@@ -29,7 +29,7 @@ class Potential(BaseModel):
 
 class Vasp(BaseModel):
     script: str
-    output: Optional[Path] = "vasp_output"
+    output: Optional[Path] = None
     settings: Dict[str, Any]
 
 
@@ -61,7 +61,7 @@ class Config(BaseModel):
         (base / "fine_tune" / "checkpoints").mkdir(parents=True, exist_ok=True)
 
         # 3. Build all other paths
-        self.potential.relax_path = base / "ml_relax" / "CONTCAR"
+        self.potential.relax_path = base / "ml_relax"
         self.vasp.output = base / "vasp_output"
         self.fine_tune.train_path = base / "fine_tune" / "train.extxyz"
         self.fine_tune.checkpoints = base / "fine_tune" / "checkpoints"
