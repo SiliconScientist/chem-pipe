@@ -30,6 +30,7 @@ def relax_potential(cfg: Config) -> None:
 
 def main():
     cfg = get_config()
+    cfg.init_paths()
     relax_potential(cfg=cfg)
 
 

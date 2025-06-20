@@ -39,6 +39,7 @@ def write_convergence_status(converged: bool) -> None:
 
 def main():
     cfg = get_config()
+    cfg.init_paths()
     converged = relax_vasp(cfg)
     write_convergence_status(converged)
 

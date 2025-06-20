@@ -1,6 +1,7 @@
 from ase.io import read, write
 from types import SimpleNamespace
 import os
+
 os.environ["LOCAL_RANK"] = "0"
 os.environ["RANK"] = "0"
 os.environ["WORLD_SIZE"] = "1"
@@ -10,7 +11,9 @@ from mattersim.training import finetune_mattersim
 import torch
 from chempipe.config import Config, get_config
 import os
-#local_rank = int(os.environ.get("LOCAL_RANK", 0))
+
+
+# local_rank = int(os.environ.get("LOCAL_RANK", 0))
 def get_fine_tune_args(cfg: Config):
     best_model = cfg.fine_tune.checkpoints / "best_model.pth"
     if best_model.exists():
@@ -25,8 +28,8 @@ def get_fine_tune_args(cfg: Config):
         save_path=str(cfg.fine_tune.checkpoints),
         save_checkpoint=True,
         ckpt_interval=50,
-        #device="cuda",
-        device = "cuda" if torch.cuda.is_available() else "cpu",
+        # device="cuda",
+        device="cuda" if torch.cuda.is_available() else "cpu",
         # model params
         cutoff=5.0,
         threebody_cutoff=4.0,
@@ -71,6 +74,7 @@ def fine_tune(cfg: Config) -> None:
 
 def main():
     cfg = get_config()
+    cfg.init_paths()
     fine_tune(cfg=cfg)
 
 
