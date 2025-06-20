@@ -13,6 +13,13 @@ NTASKS=$(get_config_value "ntasks")
 TIME=$(get_config_value "time")
 MAIL_USER=$(get_config_value "email_user")
 MAIL_TYPE=$(get_config_value "email_type")
+DEV_RUN=$(get_config_value "dev_run")
+
+if [ "$DEV_RUN" = "true" ]; then
+    export TEST_MODE=true
+else
+    export TEST_MODE=false
+fi
 
 # Define your temporary job script
 JOB_SCRIPT="temp.slurm"

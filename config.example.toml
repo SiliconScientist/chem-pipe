@@ -1,4 +1,5 @@
 [main]
+dev_run = false
 data = "data/"
 
 [sbatch]
