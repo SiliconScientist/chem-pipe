@@ -29,7 +29,7 @@ class Potential(BaseModel):
 
 class Vasp(BaseModel):
     script: str
-    output: Optional[Path] = None
+    output: Optional[Path] = "vasp_output"
     settings: Dict[str, Any]
 
 
