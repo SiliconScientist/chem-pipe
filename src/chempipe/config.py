@@ -44,7 +44,7 @@ class MainConfig(BaseModel):
 
 class Config(BaseModel):
     main: MainConfig
-    input_path: Optional[Path] = None
+    input_path: Optional[Path] = "POSCAR"
     potential: Potential
     vasp: Vasp
     fine_tune: Optional[FineTune] = None
