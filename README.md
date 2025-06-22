@@ -2,35 +2,42 @@
 Atomic simulation pipeline utilizing quantum calculations and ML interatomic potentials
 
 # LONI Setup:
-- Add VASP scripts (e.g. vasp_std, vasp_gam, etc.) into your `/home/$USER/vasp/vaspbin/' directory.
-- Add VASP pseudopotentials into your `/home/$USER/vasp/mypps/' directory.
-- On LONI, inside your `.bashrc` file:
+- On LONI, in your home directory (i.e. `/home/$USER`), clone this repository:
     ```
+    git clone https://github.com/SiliconScientist/chem-pipe.git
+    ```
+- Load the following python module: `module load python/3.9.7-anaconda`
+- Inside the `chemp-pipe` directory, create a virtual environment using the `uv` dependency manager:
+    - `uv venv .venv`
+    - `source .venv/bin/activate --python=python`
+    - `uv pip install -r requirement.txt`
+- In your home directory, add the following lines to your `.bashrc` file:
+    ```
+    alias cpenv='source ~/chem-pipe/.venv/bin/activate'
     export UV_CACHE_DIR=/scratch/$USER/.cache/uv
     export VASP_SCRIPT=/home/$USER/vasp/run_vasp.py
     export VASP_PP_PATH=/home/$USER/vasp/mypps
     ```
-- In your `/scratch/$USER/Github/` directory, clone this repository:
-    ```
-    git clone https://github.com/SiliconScientist/chem-pipe.git
-    ```
-- Clone the MatterSim repository into your `/scratch/$USER/Github/` directory.
-- In this repo, build your virtual environment:
-    1) uv venv .venv
-    2) source .venv/bin/activate
-    3) uv pip install -r requirements.txt
-- Setup a directory scheme according to this diagram: #TODO: Make this more elegant/consolidate?
-    ```
-    data/
-    ├── POSCAR                        # Initial structure for ML relaxation
-    ├── ml_relaxed/
-    ├── fine_tune/
-    │   └── checkpoints/              # Directory where model checkpoints are saved
-    vasp_output/                      # Directory for all VASP-generated outputs
-    ```
-- Modify your config.toml file according to your directory scheme and user specifications.
+- To activate the new contents of your `.bashrc` file, run `source .bashrc`.
+- Add VASP scripts (e.g. vasp_std, vasp_gam, etc.) into your `/home/$USER/vasp/vaspbin/' directory.
+- Add VASP pseudopotentials into your `/home/$USER/vasp/mypps/' directory.
+
+Congratulations! You'll never have to do that part again!
 
 ### Job submission:
-```
-bash pipeline.sh 
-```
+- Create a directory anywhere on LONI `mkdir project1`.
+- Add a `config.toml` file to your project, which you can do ways:
+    - Copy it from `~/chem-pipe/config.example.toml` and rename it.
+    - Copy an old `config.toml` from a previous project.
+
+- Customize your configuration file with your `#SBATCH` specifications and VASP parameters.
+- Add a structure file (i.e. `POSCAR`) to your directory so your project looks like this directory tree:
+    ```
+    test/
+    ├── config.toml
+    └── POSCAR
+    ```
+- Activate the chempipe environment with the `cpenv` alias
+- From your `project1` directory, run `python -m chempipe`
+
+

@@ -13,7 +13,7 @@ email_user = "username@tulane.edu"
 email_type = "END"
 
 [potential]
-model_path = "pretrained/mattersim-v1.0.0-1M.pth"
+model_path = "/home/$USER/chem-pipe/pretrained/mattersim-v1.0.0-1M.pth"
 fmax = 0.01
 
 [vasp]
