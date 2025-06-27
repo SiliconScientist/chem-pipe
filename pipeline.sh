@@ -45,7 +45,7 @@ module purge
 module load intel-mpi/2021.5.1
 module load python/3.12.7-anaconda
 
-cpenv
+source /scratch/$USER/github/chem-pipe/.venv/bin/activate
 
 TEST_MODE="\${TEST_MODE:-false}"  # default to false if not set
 converged="false"
