@@ -2,7 +2,8 @@
 Atomic simulation pipeline utilizing quantum calculations and ML interatomic potentials
 
 # LONI Setup:
-- On LONI, in your home directory (i.e. `/home/$USER`), clone this repository:
+- On LONI, in your scratch directory (i.e. `/scratch/$USER`), create a directory for your GitHub repositories: `mkdir github`
+- Inside your `github` directory, clone this repository:
     ```
     git clone https://github.com/SiliconScientist/chem-pipe.git
     ```
@@ -13,7 +14,7 @@ Atomic simulation pipeline utilizing quantum calculations and ML interatomic pot
     - `uv pip install -r requirement.txt`
 - In your home directory, add the following lines to your `.bashrc` file:
     ```
-    alias cpenv='source ~/chem-pipe/.venv/bin/activate'
+    alias cpenv='source /scratch/$USER/github/chem-pipe/.venv/bin/activate'
     export UV_CACHE_DIR=/scratch/$USER/.cache/uv
     export VASP_SCRIPT=/home/$USER/vasp/run_vasp.py
     export VASP_PP_PATH=/home/$USER/vasp/mypps
