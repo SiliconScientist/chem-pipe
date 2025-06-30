@@ -26,10 +26,10 @@ Atomic simulation pipeline utilizing quantum calculations and ML interatomic pot
 Congratulations! You'll never have to do that part again!
 
 ### Job submission:
-- Create a directory anywhere on LONI `mkdir project1`.
+- Create a directory anywhere on LONI: `mkdir project1`.
 - Add a `config.toml` file to your project, which you can do ways:
     - Copy it from `~/chem-pipe/config.example.toml` and rename it.
-    - Copy an old `config.toml` from a previous project.
+    - Copy an old `config.toml` from a previous chem-pipe project.
 
 - Customize your configuration file with your `#SBATCH` specifications and VASP parameters.
 - Add a structure file (i.e. `POSCAR`) to your directory so your project looks like this directory tree:
