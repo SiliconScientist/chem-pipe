@@ -24,6 +24,11 @@ script = "vasp_std"
 gamma = true       # Gamma-centered k-points, otherwise Monkhorst-Pack
 kpts = [10, 10, 1]
 
+# Core INCAR settings for the chem-pipe workflow
+ibrion = 3 # IBRION should equal 1, 2, or 3 for structure optimizations   
+potim = 0.3 # Time step for ionic relaxation
+nsw = 10   # Number of time steps. Also controls how many samples are used for fine-tuning
+
 # INCAR
 algo = "VeryFast"
 amix = 0.2
@@ -34,7 +39,6 @@ ediff = 1e-5
 ediffg = -0.03
 encut = 400.0
 gga = "PE"
-ibrion = 3
 idipol = 0
 ismear = 2
 ivdw = 2
@@ -45,9 +49,7 @@ lreal = "Auto"
 lvtot = false
 lwave = false
 nelmin = 5
-nsw = 10          # Number of fine-tuning samples
 nwrite = 1
-potim = 0.15
 prec = "Accurate"
 sigma = 0.2
 ncore = 4
