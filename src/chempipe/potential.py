@@ -20,7 +20,9 @@ def relax_potential(cfg: Config) -> None:
     atoms.calc = MatterSimCalculator.from_checkpoint(load_path=load_path, device=device)
     # atoms.calc = MatterSimCalculator.from_checkpoint(load_path=load_path, device="cuda")
     relaxer = Relaxer(constrain_symmetry=False)
-    _, atoms = relaxer.relax(atoms=atoms, fmax=cfg.potential.fmax)
+    _, atoms = relaxer.relax(
+        atoms=atoms, fmax=cfg.potential.fmax, maxstep=cfg.potential.maxstep
+    )
     write(
         filename=cfg.potential.relax_path,
         images=atoms,

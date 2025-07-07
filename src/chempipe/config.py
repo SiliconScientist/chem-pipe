@@ -25,6 +25,7 @@ class Potential(BaseModel):
     model_path: Path
     relax_path: Optional[Path] = None
     fmax: float
+    maxstep: float
 
 
 class Vasp(BaseModel):
