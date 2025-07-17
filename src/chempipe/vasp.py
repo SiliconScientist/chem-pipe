@@ -15,6 +15,7 @@ def check_vasp_convergence(cfg: Config) -> bool:
 
 
 def relax_vasp(cfg: Config) -> bool:
+    print("Running vasp script at:", cfg.vasp.script)
     calc = Vasp(
         command=cfg.vasp.script,
         directory=str(cfg.vasp.output),
